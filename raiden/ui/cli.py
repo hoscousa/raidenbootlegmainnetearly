@@ -171,10 +171,11 @@ def etherscan_query_with_retries(url, sleep, retries=3):
 def wait_for_sync_etherscan(blockchain_service, url, tolerance, sleep):
     local_block = blockchain_service.client.blocknumber()
     etherscan_block = etherscan_query_with_retries(url, sleep)
+    print('using url = '+ url)
     syncing_str = 'Syncing ... Current: {} / Target: ~{}'
 
-    if local_block >= etherscan_block - tolerance:
-        return
+   # if local_block >= etherscan_block - tolerance:
+       # return
 
     print('Waiting for the ethereum node to synchronize. [Use ^C to exit]')
     print(syncing_str.format(local_block, etherscan_block), end='')
@@ -183,7 +184,7 @@ def wait_for_sync_etherscan(blockchain_service, url, tolerance, sleep):
         sys.stdout.flush()
         gevent.sleep(sleep)
         local_block = blockchain_service.client.blocknumber()
-
+        print(local_block);
         # update the oracle block number sparsely to not spam the server
         if local_block >= etherscan_block or i % 50 == 0:
             etherscan_block = etherscan_query_with_retries(url, sleep)
@@ -196,8 +197,8 @@ def wait_for_sync_etherscan(blockchain_service, url, tolerance, sleep):
 
 
 def wait_for_sync_rpc_api(blockchain_service, sleep):
-    if blockchain_service.is_synced():
-        return
+    #if blockchain_service.is_synced():
+    return
 
     print('Waiting for the ethereum node to synchronize [Use ^C to exit].')
 
@@ -220,7 +221,9 @@ def wait_for_sync(blockchain_service, url, tolerance, sleep):
     print('Checking if the ethereum node is synchronized')
 
     try:
-        wait_for_sync_etherscan(blockchain_service, url, tolerance, sleep)
+        wait_for_sync_rpc_api(blockchain_service, sleep)
+
+       # wait_for_sync_etherscan(blockchain_service, url, tolerance, sleep)
     except (RequestException, ValueError, KeyError):
         print('Cannot use {}. Request failed'.format(url))
         print('Falling back to eth_sync api.')

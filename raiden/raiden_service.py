@@ -287,10 +287,10 @@ class RaidenService(object):
 
         # Restore from snapshot must come after registering the registry as we
         # need to know the registered tokens to populate `token_to_channelgraph`
-        if self.database_dir is not None:
-            self.db_lock.acquire(timeout=0)
-            assert self.db_lock.is_locked
-            self.restore_from_snapshots()
+        #if self.database_dir is not None:
+           #self.db_lock.acquire(timeout=0) 
+            #assert self.db_lock.is_locked
+            #self.restore_from_snapshots()
 
         # Start the protocol after the registry is queried to avoid warning
         # about unknown channels.
