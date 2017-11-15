@@ -557,12 +557,12 @@ class RestAPI(object):
             return api_response(result=result.data)
 
         if state == CHANNEL_STATE_SETTLED:
-            if current_state != CHANNEL_STATE_CLOSED:
-                return api_error(
-                    errors='Attempted to settle a channel at its '
-                    '{} state'.format(current_state),
-                    status_code=httplib.CONFLICT,
-                )
+            #if current_state == CHANNEL_STATE_CLOSED:
+                #return api_error(
+                    #errors='Attempted to settle a channel at its '
+                    #'{} state'.format(current_state),
+                    #status_code=httplib.CONFLICT,
+                #)
             try:
                 raiden_service_result = self.raiden_api.settle(
                     channel.token_address,
@@ -570,12 +570,12 @@ class RestAPI(object):
                 )
             except InvalidState:
                 return api_error(
-                    errors='Settlement period is not yet over',
+                    errors='Something went terribly wrong... Settlement period is not yet over',
                     status_code=httplib.CONFLICT,
                 )
-            else:
-                result = self.channel_schema.dump(channel_to_api_dict(raiden_service_result))
-                return api_response(result=result.data)
+            #else:
+            result = self.channel_schema.dump(channel_to_api_dict(raiden_service_result))
+            return api_response(result=result.data)
 
         # should never happen, channel_state is validated in the schema
         return api_error(

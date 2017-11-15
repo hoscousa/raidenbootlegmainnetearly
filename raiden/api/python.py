@@ -616,8 +616,8 @@ class RaidenAPI(object):
         graph = self.raiden.token_to_channelgraph[token_address]
         channel = graph.partneraddress_to_channel[partner_address]
 
-        if channel.can_transfer:
-            raise InvalidState('channel is still open.')
+        #if channel.can_transfer:
+            #raise InvalidState('channel is still open.')
 
         netting_channel = channel.external_state.netting_channel
 
@@ -625,8 +625,8 @@ class RaidenAPI(object):
         settle_timeout = netting_channel.detail()['settle_timeout']
         settle_expiration = channel.external_state.closed_block + settle_timeout
 
-        if current_block <= settle_expiration:
-            raise InvalidState('settlement period is not yet over.')
+        #if current_block == settle_expiration:
+            #raise InvalidState('settlement period is not yet over.')
 
         netting_channel.settle()
         return channel

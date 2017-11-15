@@ -24,21 +24,30 @@ Please refer to the `Installation`_ section in the official docs.
 
 
 Mike's Notes from Experience:
+
 On Mac:
 
 For installation:
+
+
 You will run into 2 issues on mac:
-1. You will be missing libcrypto: follow this: http://mithun.co/hacks/library-not-loaded-libcrypto-1-0-0-dylib-issue-in-mac/ .... your version will be different but instruction works. But brew install openssl might be all you need.
+
+1. You will be missing libcrypto: follow this: http://mithun.co/hacks/
+library-not-loaded-libcrypto-1-0-0-dylib-issue-in-mac/ .... your version will be different but instruction works. But brew install openssl might be all you need.
+
 2. You will be missing libgmp after pip install when running raiden, so do this:
+
 brew update && brew install gmp
 And you should be good to run
+
 3. Solidity compiler: on mac:  brew tap ethereum/ethereum
+
 Then: brew install solc
 
 
 to run:
 1. virtualenv raiden_project
-2. raiden_project bin/source activate
+2. source raiden_project/bin/activate
 
 Have your Ethereum wallet set up, with your account, you will choose from there
 On first go, it will ask for a file, you can generate a keystore on myetherwallet, put the JSON in a folder and unlick, but it will set go with your geth
